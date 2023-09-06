@@ -7,9 +7,7 @@ import com.microservice.vehicle.dao.IVehicleDAO;
 import com.microservice.vehicle.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJacksonValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/vehicle")
@@ -19,7 +17,7 @@ public class VehicleController {
     private IVehicleDAO vehicleDAO;
 
     @GetMapping
-    public Object listAllVehicle(){
+    public Object listAllVehicles(){
        Iterable<Vehicle> vehicles = vehicleDAO.findAll();
 
         SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("");
@@ -32,6 +30,28 @@ public class VehicleController {
 
         return vehiclesFiltres;
     }
+
+    @GetMapping("/{id}")
+    public Vehicle listOneVehicle(@PathVariable int id){
+        return vehicleDAO.findById(id);
+    }
+
+    @PostMapping
+    public Vehicle addNewVehicle(@RequestBody Vehicle vehicle){
+       return vehicleDAO.save(vehicle);
+    }
+
+    @PutMapping("/{id}")
+    public Vehicle editVehicle(@RequestBody Vehicle vehicle, @PathVariable int id){
+        vehicle.setId(id);
+        return vehicleDAO.save(vehicle);
+    }
+    @DeleteMapping("/{id}")
+    public Vehicle deleteVehicle(@PathVariable int id){
+        return vehicleDAO.deleteById(id);
+    }
+
+
 //    @GetMapping
 //    public String printTest(){
 //        return "hello test";

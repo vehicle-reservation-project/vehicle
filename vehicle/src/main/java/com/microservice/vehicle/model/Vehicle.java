@@ -17,7 +17,6 @@ public class Vehicle {
     private Integer fiscalHPower;
     private double km;
     private double priceDay;
-
     private Integer displacementMotorcycleCm3;
     private Integer loadCapacityM3;
 
