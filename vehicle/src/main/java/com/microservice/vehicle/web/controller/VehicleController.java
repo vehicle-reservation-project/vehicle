@@ -31,7 +31,7 @@ public class VehicleController {
         vehiclesFiltres.setFilters(listDeNosFiltres);
 
         return vehiclesFiltres;
-    }
+    }.
 //    @GetMapping
 //    public String printTest(){
 //        return "hello test";
