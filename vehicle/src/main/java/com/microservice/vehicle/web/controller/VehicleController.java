@@ -1,14 +1,12 @@
 package com.microservice.vehicle.web.controller;
 
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.microservice.vehicle.dao.IVehicleDAO;
 import com.microservice.vehicle.exceptions.ExceptionAddVehicle;
 import com.microservice.vehicle.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/vehicle")
@@ -18,19 +16,29 @@ public class VehicleController {
     private IVehicleDAO vehicleDAO;
 
     @GetMapping
-    public Object listAllVehicles(){
-       Iterable<Vehicle> vehicles = vehicleDAO.findAll();
-
-        SimpleBeanPropertyFilter monFiltre = SimpleBeanPropertyFilter.serializeAllExcept("");
-
-        FilterProvider listDeNosFiltres = new SimpleFilterProvider().addFilter("monFiltreDynamique", monFiltre);
-
-        MappingJacksonValue vehiclesFiltres = new MappingJacksonValue(vehicles);
-
-        vehiclesFiltres.setFilters(listDeNosFiltres);
-
-        return vehiclesFiltres;
+    public List<Vehicle> listAllVehicles(@RequestParam(value = "type", required = false) String type){
+        if (type == null){
+          List<Vehicle> vehicles = vehicleDAO.findAll();
+          return vehicles;
+        } else {
+            return vehicleDAO.findByType(type);
+        }
     }
+
+    @GetMapping("/maxhp/{maxHp}")
+    public List<Vehicle> listAllVehiclesWithMaxHP(@PathVariable int maxHp){
+            List<Vehicle> vehicles = vehicleDAO.findByFiscalHPowerIsLessThan(maxHp);
+            return vehicles;
+    }
+
+
+
+
+
+
+
+
+
 
     @GetMapping("/{id}")
     public Vehicle listOneVehicle(@PathVariable int id){
@@ -55,7 +63,6 @@ public class VehicleController {
     }
 
 
-
     @PutMapping("/{id}")
     public Vehicle editVehicle(@RequestBody Vehicle vehicle, @PathVariable int id){
         checkVehiclePut(vehicle);
@@ -67,6 +74,10 @@ public class VehicleController {
         return vehicleDAO.deleteById(id);
     }
 
+
+//    public Object filterByType(@RequestParam String type){
+//
+//    }
 
 
 
