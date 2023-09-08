@@ -31,15 +31,6 @@ public class VehicleController {
             return vehicles;
     }
 
-
-
-
-
-
-
-
-
-
     @GetMapping("/{id}")
     public Vehicle listOneVehicle(@PathVariable int id){
         return vehicleDAO.findById(id);
@@ -74,10 +65,6 @@ public class VehicleController {
         return vehicleDAO.deleteById(id);
     }
 
-
-//    public Object filterByType(@RequestParam String type){
-//
-//    }
 
 
 
