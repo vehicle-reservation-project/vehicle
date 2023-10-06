@@ -19,6 +19,7 @@ public class Vehicle {
     private double priceDay;
     private Integer displacementMotorcycleCm3;
     private Integer loadCapacityM3;
+    private String image;
 
     public Vehicle(Integer id, String type, String brand, String model, String color, String plateNumber, Integer fiscalHPower, double km, double priceDay, Integer displacementMotorcycleCm3, Integer loadCapacityM3) {
         this.id = id;
@@ -32,10 +33,19 @@ public class Vehicle {
         this.priceDay = priceDay;
         this.displacementMotorcycleCm3 = displacementMotorcycleCm3;
         this.loadCapacityM3 = loadCapacityM3;
+        this.image= image;
     }
 
     public Vehicle() {
 
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Integer getId() {
